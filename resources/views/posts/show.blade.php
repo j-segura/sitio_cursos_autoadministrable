@@ -3,7 +3,7 @@
         <h1 class="text-4xl font-bold text-gray-400">{{ $post->name }}</h1>
 
         <div class="text-lg text-gray-500 mb-2">
-            {{ $post->extract }}
+            {!! $post->extract !!}
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -11,11 +11,12 @@
             {{-- contenido principal --}}
             <div class="lg:col-span-2">
                 <figure>
-                    <img class="w-full h-80 object-cover object-center" src="/images/posts/{{ $post->image->url }}">
+                    <img class="w-full h-80 object-cover object-center"
+                        src="@if ($post->image) /images/posts/{{ $post->image->url }} @else /images/posts/default.jpg @endif">
                 </figure>
 
                 <div class="text-base text-gray-500 mt-4">
-                    {{ $post->body }}
+                    {!! $post->body !!}
                 </div>
             </div>
 
@@ -26,7 +27,13 @@
                     @foreach ($similares as $similar)
                         <li class="mb-4">
                             <a class="flex" href="{{ route('posts.show', $similar) }}">
-                                <img class="w-36 h-20 object-cover object-center" src="/images/posts/{{ $similar->image->url }}">
+                                @if ($similar->image)
+                                    <img class="w-36 h-20 object-cover object-center"
+                                        src="/images/posts/{{ $similar->image->url }}">
+                                @else
+                                    <img class="w-36 h-20 object-cover object-center"
+                                        src="/images/posts/default.jpg">
+                                @endif
                                 <span class="ml-2 text-gray-600">{{ $similar->name }}</span>
                             </a>
                         </li>
